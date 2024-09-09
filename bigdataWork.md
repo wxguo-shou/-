@@ -346,51 +346,20 @@ public class MyMapper extends Mapper<LongWritable, Text, Text, Text> {
 
  
 
-​    // 空白行需要过滤
+​  /* 数据清洗
+空白行过滤
 
-​    if (line.isEmpty()){
+数据长度不是7， 需要过滤
 
-​      return false;
+第一行是字段名，需要过滤
 
-​    }
+匹配一行开头为任意个数字的ID， 过滤掉不是以数字开头的行
 
- 
+过滤掉第四列数据只是负号， 没有数据的列
 
-​    // 数据长度不是7， 需要过滤
+*/
 
-​    if (words.length != 7){
-
-​      return false;
-
-​    }
-
- 
-
-​    // 第一行需要过滤
-
-​    if (i == 1){
-
-​      return false;
-
-​    }
-
- 
-
-​    // 匹配一行开头为任意个数字的ID， 过滤掉不是以数字开头的行
-
-​    String regex = "\\d*";
-
-​    if (!words[0].matches(regex)){
-
-​      return false;
-
-​    }
-
- 
-
-​    // 过滤掉第四列数据只是负号， 没有数据的列
-
-​    if (words[3].equals("-")){
+​    if (line.isEmpty() || words.length != 7 || i == 1 || !words[0].matches("\\d*") || words[3].equals("-")){
 
 ​      return false;
 
